@@ -1,3 +1,5 @@
+import { Component } from 'react';
+
 import {
   FeedbackForm,
   Button,
@@ -7,44 +9,84 @@ import {
   StatisticsItem,
 } from './feedback.styled';
 
-export const Feedback = () => {
-  return (
-    <FeedbackForm>
-      <h2>Please leave feedback</h2>
-      <ButtonList>
-        <li>
-          <Button>Good</Button>
-        </li>
-        <li>
-          <Button>Neutral</Button>
-        </li>
-        <li>
-          <Button>Bad</Button>
-        </li>
-      </ButtonList>
-      <StatisticsTitle>Statistics</StatisticsTitle>
-      <StatisticsList>
-        <StatisticsItem>
-          <span>Good: </span>
-          <span>3</span>
-        </StatisticsItem>
-        <StatisticsItem>
-          <span>Neutral: </span>
-          <span>4</span>
-        </StatisticsItem>
-        <StatisticsItem>
-          <span>Bad: </span>
-          <span>12</span>
-        </StatisticsItem>
-        <StatisticsItem>
-          <span>Total: </span>
-          <span>12</span>
-        </StatisticsItem>
-        <StatisticsItem>
-          <span>Positive feedback: </span>
-          <span>12</span>
-        </StatisticsItem>
-      </StatisticsList>
-    </FeedbackForm>
-  );
-};
+export class Feedback extends Component {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+
+  handleCountFeedback = feedbackType => {
+    this.setState(prevSate => ({
+      [feedbackType]: prevSate[feedbackType] + 1,
+    }));
+  };
+
+  countTotalFeedback = () =>
+    Object.values(this.state).reduce((total, value) => total + value, 0);
+
+  countPositiveFeedbackPercentage = () => {};
+
+  render() {
+    const { good, neutral, bad } = this.state;
+
+    return (
+      <FeedbackForm>
+        <h2>Please leave feedback</h2>
+        <ButtonList>
+          <li>
+            <Button
+              onClick={() => {
+                this.handleCountFeedback('good');
+              }}
+            >
+              Good
+            </Button>
+          </li>
+          <li>
+            <Button
+              onClick={() => {
+                this.handleCountFeedback('neutral');
+              }}
+            >
+              Neutral
+            </Button>
+          </li>
+          <li>
+            <Button
+              onClick={() => {
+                this.handleCountFeedback('bad');
+              }}
+            >
+              Bad
+            </Button>
+          </li>
+        </ButtonList>
+        <StatisticsTitle>Statistics</StatisticsTitle>
+        <StatisticsList>
+          <StatisticsItem>
+            <span>Good: </span>
+            <span>{good}</span>
+          </StatisticsItem>
+          <StatisticsItem>
+            <span>Neutral: </span>
+            <span>{neutral}</span>
+          </StatisticsItem>
+          <StatisticsItem>
+            <span>Bad: </span>
+            <span>{bad}</span>
+          </StatisticsItem>
+          <hr />
+          <StatisticsItem>
+            <span>Total: </span>
+            <span>{this.countTotalFeedback()}</span>
+          </StatisticsItem>
+          <StatisticsItem>
+            <span>Positive feedback: </span>
+            <span>12%</span>
+          </StatisticsItem>
+        </StatisticsList>
+      </FeedbackForm>
+    );
+  }
+}
