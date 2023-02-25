@@ -5,12 +5,13 @@ import { Section } from './Section';
 import { FeedbackOptions } from './FeedbackOptions';
 import { Statistics } from './Statistics';
 
+const INITIAL_STATE = {
+  good: 0,
+  neutral: 0,
+  bad: 0,
+};
 export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+  state = { ...INITIAL_STATE };
 
   onLeaveFeedback = option => {
     this.setState(prevSate => ({
