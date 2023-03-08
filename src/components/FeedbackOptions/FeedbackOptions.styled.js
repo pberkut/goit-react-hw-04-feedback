@@ -11,5 +11,5 @@ export const Button = styled.button`
   font-weight: 500;
   text-transform: capitalize;
   background-color: #ffffff;
-  border-color: lightgray;
+  border-color: lightgrey;
 `;
